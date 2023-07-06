@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
+    id("dagger.hilt.android.plugin")
     kotlin("android")
+    kotlin("kapt")
 }
 
 repositories {
@@ -51,25 +53,31 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":api"))
+    implementation(project(":domain"))
+    implementation(project(":base-ui"))
+    implementation(project(":navigation"))
+    implementation(project(":ui-main"))
+    api(project(":common"))
 
+    //AndroidX
     implementation(Dependencies.AndroidX.core)
 
+    //Compose
     implementation(platform(Dependencies.Compose.bom))
     implementation(Dependencies.Compose.ui)
     implementation(Dependencies.Compose.material)
-    implementation(Dependencies.Compose.preview)
-    implementation(Dependencies.Compose.materialIcons)
 
+    //Lifecycle
     implementation(Dependencies.Lifecycle.lifecycleRuntime)
     implementation(Dependencies.Lifecycle.activity)
 
-    implementation(Dependencies.Retrofit.retrofit)
-    implementation(Dependencies.Retrofit.gson)
-
-    implementation(Dependencies.OkHttp.okhttp)
-    implementation(Dependencies.OkHttp.interceptor)
-
-    implementation(Dependencies.Coil.compose)
-    
+    //Navigation
     implementation(Dependencies.Navigation.navigation)
+
+    //Hilt
+    implementation(Dependencies.Hilt.hilt)
+    kapt(Dependencies.Hilt.kapt)
+    implementation(Dependencies.Hilt.navigation)
 }
