@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.levox.locale.R
 
 @Composable
 fun LoadingScreen() {
@@ -20,7 +22,7 @@ fun LoadingScreen() {
     ) {
         CircularProgressIndicator()
         Text(
-            text = "Загрузка…",
+            text = stringResource(id = R.string.loading),
             fontSize = MaterialTheme.typography.h3.fontSize
         )
     }

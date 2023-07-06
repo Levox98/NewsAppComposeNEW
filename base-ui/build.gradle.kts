@@ -46,6 +46,8 @@ android {
 
 dependencies {
 
+    implementation(project(":locale"))
+
     implementation(Dependencies.AndroidX.core)
 
     //Compose

@@ -1,4 +1,4 @@
-package com.levox.newsapp.ui.app.screens
+package com.levox.ui_main.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,20 +7,26 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.levox.base_ui.component.ArticleItem
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
+import com.levox.ui_main.screen.component.ArticleItem
 import com.levox.base_ui.component.SearchBar
 import com.levox.domain.entity.Article
+import com.levox.locale.R
+import com.levox.navigation.Screen
+import com.levox.newsapp.ui.app.screens.LoadingScreen
 import com.levox.ui_main.viewmodel.MainScreenViewModel
+import com.levox.ui_main.viewmodel.SharedViewModel
 
 @Composable
 fun MainScreen(
-    viewModel: MainScreenViewModel
+    viewModel: MainScreenViewModel,
+    sharedViewModel: SharedViewModel,
+    navHostController: NavHostController
 ) {
     val resultList = mutableListOf<Article>()
 
@@ -41,7 +47,7 @@ fun MainScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Введите тему для просмотра новостей"
+                text = stringResource(id = R.string.search_suggestion)
             )
         }
     }
@@ -70,14 +76,14 @@ fun MainScreen(
             LazyColumn {
                 itemsIndexed(resultList) { _, article ->
                     ArticleItem(
-                        imageUrl = article.urlToImage,
-                        author = article.author,
-                        publishDate = article.publishedAt,
-                        title = article.title,
-                        description = article.description
-                    ) {
-
-                    }
+                        article = article,
+                        onClick = remember {
+                            {
+                                sharedViewModel.setCurrentArticle(it)
+                                navHostController.navigate(Screen.Article.route)
+                            }
+                        }
+                    )
                 }
             }
         }

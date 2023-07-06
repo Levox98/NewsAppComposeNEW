@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":base-ui"))
     implementation(project(":common"))
     implementation(project(":domain"))
+    implementation(project(":locale"))
     implementation(project(":navigation"))
 
     implementation(Dependencies.AndroidX.core)

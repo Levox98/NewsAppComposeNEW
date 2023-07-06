@@ -4,15 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.levox.navigation.NavigationBack
-import com.levox.navigation.NavigationLevel
-import com.levox.navigation.NavigationManager
 
-abstract class BaseViewModel(
-    val navigationManager: NavigationManager
-): ViewModel() {
-    abstract val navigationLevel: NavigationLevel
-
+abstract class BaseViewModel: ViewModel() {
     var showProgress: Boolean by mutableStateOf(false)
         private set
 
@@ -34,9 +27,5 @@ abstract class BaseViewModel(
 
     fun clearError() {
         errorMessage = null
-    }
-
-    open fun navigateBack(level: NavigationLevel? = null) {
-        navigationManager.navigate(NavigationBack(level ?: navigationLevel))
     }
 }

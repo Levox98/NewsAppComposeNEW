@@ -2,16 +2,16 @@ package com.levox.ui_main.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.levox.common.utils.BaseViewModel
 import com.levox.domain.entity.Article
 import com.levox.domain.usecase.GetEverythingUseCase
-import com.levox.navigation.NavigationLevel
-import com.levox.navigation.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,23 +21,17 @@ private const val MAX_LENGTH = 50
 
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
-    navigationManager: NavigationManager,
     private val getEverythingUseCase: GetEverythingUseCase
-) : BaseViewModel(navigationManager) {
-    override val navigationLevel: NavigationLevel
-        get() = NavigationLevel.main
+) : BaseViewModel() {
 
-    private val _state = MutableStateFlow(NewsUiState())
-    val state: StateFlow<NewsUiState>
+    private val _state = MutableStateFlow(MainScreenState())
+    val state: StateFlow<MainScreenState>
         get() = _state.asStateFlow()
-
-    private val _articles = MutableLiveData<List<Article>>()
 
     val searchQuery: MutableState<String> = mutableStateOf("")
 
     private fun searchNews(searchQuery: String) {
         viewModelScope.launch {
-            _articles.value = emptyList()
             _state.update { currentState -> currentState.copy(isLoading = true) }
             try {
                 viewModelScope.launch(Dispatchers.IO) {
@@ -105,7 +99,7 @@ class MainScreenViewModel @Inject constructor(
     }
 }
 
-data class NewsUiState(
+data class MainScreenState(
     val isLoading: Boolean = false,
     val error: Exception? = null,
     val searchedNews: List<Article> = emptyList(),

@@ -19,7 +19,9 @@ class MainActivity : ComponentActivity() {
             NewsAppComposeTheme {
                 navHostController = rememberNavController()
 
-                NewsAppScreen(navHostController = navHostController)
+                NewsAppScreen(
+                    navHostController = navHostController
+                )
             }
         }
     }
