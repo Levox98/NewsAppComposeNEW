@@ -7,4 +7,6 @@
     <string name="empty_content">Empty content</string>
     <string name="search_suggestion">Enter a theme for news search</string>
     <string name="loading">Loading…</string>
+    <string name="article_error">Oops, something went wrong</string>
+    <string name="search_empty">Nothing found. Sorry!</string>
 </resources>

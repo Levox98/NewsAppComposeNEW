@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun SearchBar(
+    modifier: Modifier = Modifier,
     text: String,
     onTextChange: (String) -> Unit,
     onCloseClicked: () -> Unit,
@@ -31,13 +32,13 @@ fun SearchBar(
     backgroundColor: Color
 ) {
     val localFocusManager = LocalFocusManager.current
-    Card(
+    Surface(
         elevation = 6.dp,
         shape = RoundedCornerShape(4.dp),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp),
-        backgroundColor = MaterialTheme.colors.primary
+        color = MaterialTheme.colors.secondary
     ) {
         TextField(
             value = text,
@@ -82,9 +83,7 @@ fun SearchBar(
                 ),
                 keyboardActions = KeyboardActions(
                     onSearch = {
-                        if (text.isNotEmpty()) {
-                            onSearchClicked(text)
-                        }
+                        if (text.isNotEmpty()) onSearchClicked(text)
                         localFocusManager.clearFocus()
                     }
                 ),
