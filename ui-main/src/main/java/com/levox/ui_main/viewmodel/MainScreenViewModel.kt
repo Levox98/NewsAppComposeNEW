@@ -16,8 +16,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-private const val MIN_LENGTH = 3
-private const val MAX_LENGTH = 50
 
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
@@ -31,54 +29,23 @@ class MainScreenViewModel @Inject constructor(
     val searchQuery: MutableState<String> = mutableStateOf("")
 
     private fun searchNews(searchQuery: String) {
-        viewModelScope.launch {
-            _state.update { currentState -> currentState.copy(isLoading = true) }
-            try {
-                viewModelScope.launch(Dispatchers.IO) {
-                    getEverythingUseCase(searchQuery).collect { state ->
-                        withContext(Dispatchers.Main) {
-                            when (state) {
-                                is GetEverythingUseCase.State.Loading -> {
-                                    _state.update { currentState ->
-                                        currentState.copy(isLoading = true)
-                                    }
-                                }
-                                is GetEverythingUseCase.State.Error -> {
-                                    _state.update { currentState ->
-                                        currentState.copy(
-                                            isLoading = false,
-                                            error = Exception(state.error.message())
-                                        )
-                                    }
-                                }
-                                is GetEverythingUseCase.State.Success -> {
-                                    _state.update { currentState ->
-                                        currentState.copy(
-                                            isLoading = false,
-                                            searchedNews = state.articles ?: emptyList()
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                _state.update { currentState ->
-                    currentState.copy(
-                        isLoading = false,
-                        error = e,
-                        searchedNews = emptyList()
-                    )
-                }
+        _state.update { currentState -> currentState.copy(isLoading = true) }
+        try {
+            getArticles(searchQuery)
+        } catch (e: Exception) {
+            _state.update { currentState ->
+                currentState.copy(
+                    isLoading = false,
+                    error = e,
+                    searchedNews = emptyList()
+                )
             }
         }
     }
 
     fun updateQuery(query: String) {
-        if (query.isEmpty()) {
-            _state.update { currentState -> currentState.copy(queryValid = true) }
-        }
+        _state.update { currentState -> currentState.copy(queryValid = true) }
+
         searchQuery.value = query
     }
 
@@ -90,12 +57,52 @@ class MainScreenViewModel @Inject constructor(
 
     fun onSearchClicked(query: String) {
         _state.update { currentState -> currentState.copy(queryValid = checkQueryValid(query)) }
+
         if (!_state.value.queryValid) return
+
+        _state.update { currentState -> currentState.copy(searchWasPressed = true) }
         searchNews(query)
     }
 
     private fun checkQueryValid(query: String): Boolean {
-        return query.length in MIN_LENGTH..MAX_LENGTH
+        return query.length in MIN_QUERY_LENGTH..MAX_QUERY_LENGTH
+    }
+
+    private fun getArticles(searchQuery: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            getEverythingUseCase(searchQuery).collect { state ->
+                withContext(Dispatchers.Main) {
+                    when (state) {
+                        is GetEverythingUseCase.State.Loading -> {
+                            _state.update { currentState ->
+                                currentState.copy(isLoading = true)
+                            }
+                        }
+                        is GetEverythingUseCase.State.Error -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    error = Exception(state.error.message())
+                                )
+                            }
+                        }
+                        is GetEverythingUseCase.State.Success -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    searchedNews = state.articles ?: emptyList()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    companion object {
+        private const val MIN_QUERY_LENGTH = 3
+        private const val MAX_QUERY_LENGTH = 50
     }
 }
 
@@ -103,5 +110,6 @@ data class MainScreenState(
     val isLoading: Boolean = false,
     val error: Exception? = null,
     val searchedNews: List<Article> = emptyList(),
-    val queryValid: Boolean = true
+    val queryValid: Boolean = true,
+    val searchWasPressed: Boolean = false
 )

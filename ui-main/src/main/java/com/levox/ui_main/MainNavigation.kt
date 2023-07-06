@@ -22,7 +22,6 @@ fun NavGraphBuilder.addMainScreen(
     }
     composable(Screen.Article.route) {
         ArticleScreen(
-            viewModel = hiltViewModel(),
             sharedViewModel = sharedViewModel,
             navHostController = navHostController
         )

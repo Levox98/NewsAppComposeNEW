@@ -1,18 +1,18 @@
 package com.levox.base_ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 
 @Composable
-fun ArticleImage(imageUrl: String?, verticalHeight: Int, widthFraction: Float) {
+fun ArticleImage(
+    modifier: Modifier = Modifier,
+    imageUrl: String?
+) {
     SubcomposeAsyncImage(
         model = imageUrl,
         loading = {
@@ -22,10 +22,8 @@ fun ArticleImage(imageUrl: String?, verticalHeight: Int, widthFraction: Float) {
                 modifier = Modifier
             )
         },
-        contentDescription = "Article image",
-        modifier = Modifier
-            .fillMaxWidth(widthFraction)
-            .height(verticalHeight.dp)
+        contentDescription = null,
+        modifier = modifier
             .background(Color.White),
         contentScale = ContentScale.Crop,
     )
