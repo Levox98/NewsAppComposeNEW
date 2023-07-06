@@ -1,7 +1,8 @@
 package com.levox.ui_main.viewmodel
 
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.levox.domain.entity.Article
@@ -23,10 +24,10 @@ class MainScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MainScreenState())
-    val state: StateFlow<MainScreenState>
-        get() = _state.asStateFlow()
+    val state: StateFlow<MainScreenState> = _state.asStateFlow()
 
-    val searchQuery: MutableState<String> = mutableStateOf("")
+    var searchQuery by mutableStateOf("")
+        private set
 
     private fun searchNews(searchQuery: String) {
         _state.update { currentState -> currentState.copy(isLoading = true) }
@@ -46,7 +47,7 @@ class MainScreenViewModel @Inject constructor(
     fun updateQuery(query: String) {
         _state.update { currentState -> currentState.copy(queryValid = true) }
 
-        searchQuery.value = query
+        searchQuery = query
     }
 
     fun clearSearch() {

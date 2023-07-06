@@ -31,7 +31,7 @@ fun MainScreen(
     }
 
     val state by viewModel.state.collectAsState()
-    val query by viewModel.searchQuery
+    val query = viewModel.searchQuery
 
     val queryColor = if (state.queryValid) {
         Color.Transparent
