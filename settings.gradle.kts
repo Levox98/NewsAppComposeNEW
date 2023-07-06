@@ -20,3 +20,10 @@ pluginManagement {
 }
 rootProject.name = "NewsAppCompose"
 include(":app")
+include(":api")
+include(":base-ui")
+include(":data")
+include(":domain")
+include(":ui-main")
+include(":navigation")
+include(":common")

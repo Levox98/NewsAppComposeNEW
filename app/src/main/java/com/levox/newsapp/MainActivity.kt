@@ -3,26 +3,23 @@ package com.levox.newsapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.levox.newsapp.ui.app.NewsApp
-import com.levox.newsapp.ui.theme.NewsAppComposeTheme
-import com.levox.newsapp.ui.viewmodel.NewsViewModel
+import com.levox.base_ui.theme.NewsAppComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private lateinit var navController: NavHostController
-
-    private val viewModel: NewsViewModel by viewModels()
+    private lateinit var navHostController: NavHostController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             NewsAppComposeTheme {
-                navController = rememberNavController()
+                navHostController = rememberNavController()
 
-                NewsApp(navController = navController, viewModel = viewModel)
+                NewsAppScreen(navHostController = navHostController)
             }
         }
     }

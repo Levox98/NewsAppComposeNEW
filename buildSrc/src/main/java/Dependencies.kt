@@ -8,7 +8,6 @@ object Dependencies {
 
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion"
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-        const val collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:$collectionsVersion"
     }
 
     object Compose {
@@ -36,7 +35,6 @@ object Dependencies {
 
     object Retrofit {
         const val version = "2.9.0"
-        const val serializationVersion = "0.8.0"
 
         const val retrofit = "com.squareup.retrofit2:retrofit:$version"
         const val gson = "com.squareup.retrofit2:converter-gson:$version"
@@ -52,7 +50,7 @@ object Dependencies {
     object Lifecycle {
         const val lifecycleVersion = "2.4.1"
         const val composeViewModelVersion = "2.4.0-rc01"
-        const val activityVersion = "1.4.0"
+        const val activityVersion = "1.7.2"
 
         const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
         const val lifecycleViewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:$composeViewModelVersion"
@@ -66,7 +64,7 @@ object Dependencies {
     }
 
     object Navigation {
-        const val navigationVersion = "2.4.2"
+        const val navigationVersion = "2.5.0"
 
         const val navigation = "androidx.navigation:navigation-compose:$navigationVersion"
     }
