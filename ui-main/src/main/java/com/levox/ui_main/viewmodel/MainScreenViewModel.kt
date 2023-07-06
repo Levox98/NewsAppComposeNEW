@@ -2,8 +2,8 @@ package com.levox.ui_main.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.levox.common.utils.BaseViewModel
 import com.levox.domain.entity.Article
 import com.levox.domain.usecase.GetEverythingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
     private val getEverythingUseCase: GetEverythingUseCase
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val _state = MutableStateFlow(MainScreenState())
     val state: StateFlow<MainScreenState>
